@@ -15,7 +15,9 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
+	"io/fs"
 	"os"
 	"strings"
 )
@@ -48,7 +50,7 @@ func main() {
 		if len(os.Args) != 3 {
 			usage()
 		}
-		searchContacts(os.Args[2])
+		findContacts(os.Args[2])
 	case "delete":
 		if len(os.Args) != 3 {
 			usage()
@@ -69,38 +71,74 @@ func usage() {
 	os.Exit(1)
 }
 
-// load reads contactsFile and decodes it into a slice of Contact. A missing
-// file is treated as an empty contact list rather than an error, so the
+// loadContacts reads the file at path and decodes it into a slice of
+// Contact. A missing file is not an error: it simply means there are no
+// contacts yet, so loadContacts returns a nil slice and a nil error, and the
 // first "add" works without any setup step.
-func load() []Contact {
-	data, err := os.ReadFile(contactsFile)
+func loadContacts(path string) ([]Contact, error) {
+	data, err := os.ReadFile(path)
 	if err != nil {
-		if os.IsNotExist(err) {
-			return []Contact{}
+		if errors.Is(err, fs.ErrNotExist) {
+			return nil, nil
 		}
-		fmt.Printf("Error reading %s: %v\n", contactsFile, err)
-		os.Exit(1)
+		return nil, fmt.Errorf("reading %s: %w", path, err)
 	}
 
 	var contacts []Contact
 	if err := json.Unmarshal(data, &contacts); err != nil {
-		fmt.Printf("Error parsing %s: %v\n", contactsFile, err)
+		return nil, fmt.Errorf("parsing %s: %w", path, err)
+	}
+	return contacts, nil
+}
+
+// saveContacts encodes contacts as indented JSON and writes it to path,
+// overwriting whatever was there before.
+func saveContacts(path string, contacts []Contact) error {
+	data, err := json.MarshalIndent(contacts, "", "  ")
+	if err != nil {
+		return fmt.Errorf("encoding contacts: %w", err)
+	}
+	if err := os.WriteFile(path, data, 0644); err != nil {
+		return fmt.Errorf("writing %s: %w", path, err)
+	}
+	return nil
+}
+
+// searchContacts returns every contact whose name or email contains query,
+// matched case-insensitively. It does no I/O, which keeps it easy to test.
+func searchContacts(contacts []Contact, query string) []Contact {
+	query = strings.ToLower(query)
+	matches := make([]Contact, 0)
+	for _, c := range contacts {
+		if strings.Contains(strings.ToLower(c.Name), query) ||
+			strings.Contains(strings.ToLower(c.Email), query) {
+			matches = append(matches, c)
+		}
+	}
+	return matches
+}
+
+// load and save wrap loadContacts and saveContacts for the command-line
+// handlers: any error is reported and ends the program.
+func load() []Contact {
+	contacts, err := loadContacts(contactsFile)
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
 		os.Exit(1)
 	}
 	return contacts
 }
 
-// save encodes contacts as indented JSON and writes it back to
-// contactsFile, overwriting whatever was there before.
 func save(contacts []Contact) {
-	data, err := json.MarshalIndent(contacts, "", "  ")
-	if err != nil {
-		fmt.Printf("Error encoding contacts: %v\n", err)
+	if err := saveContacts(contactsFile, contacts); err != nil {
+		fmt.Printf("Error: %v\n", err)
 		os.Exit(1)
 	}
-	if err := os.WriteFile(contactsFile, data, 0644); err != nil {
-		fmt.Printf("Error writing %s: %v\n", contactsFile, err)
-		os.Exit(1)
+}
+
+func printContacts(contacts []Contact) {
+	for _, c := range contacts {
+		fmt.Printf("%s | %s | %s\n", c.Name, c.Email, c.Phone)
 	}
 }
 
@@ -117,32 +155,17 @@ func listContacts() {
 		fmt.Println("No contacts.")
 		return
 	}
-	for _, c := range contacts {
-		fmt.Printf("%s | %s | %s\n", c.Name, c.Email, c.Phone)
-	}
+	printContacts(contacts)
 }
 
-// searchContacts prints every contact whose name or email contains query,
-// matched case-insensitively.
-func searchContacts(query string) {
-	contacts := load()
-	query = strings.ToLower(query)
-
-	matches := make([]Contact, 0)
-	for _, c := range contacts {
-		if strings.Contains(strings.ToLower(c.Name), query) ||
-			strings.Contains(strings.ToLower(c.Email), query) {
-			matches = append(matches, c)
-		}
-	}
-
+// findContacts prints the result of searchContacts for the "search" command.
+func findContacts(query string) {
+	matches := searchContacts(load(), query)
 	if len(matches) == 0 {
 		fmt.Println("No matching contacts.")
 		return
 	}
-	for _, c := range matches {
-		fmt.Printf("%s | %s | %s\n", c.Name, c.Email, c.Phone)
-	}
+	printContacts(matches)
 }
 
 // deleteContact removes every contact with an exact name match. Using

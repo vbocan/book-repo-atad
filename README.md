@@ -59,7 +59,7 @@ cargo run -p ch12-ownership-borrowing-and-lifetimes --example move-semantics
 | 15 | Generics Traits And Polymorphism In Rust | — | 1 |
 | 16 | Iterators Closures And Collections In Rust | — | 2 |
 | 17 | Concurrency And Smart Pointers In Rust | — | 1 |
-| 19 | Building Http Services In Rust | — | 2 |
+| 19 | Building Http Services In Rust | — | 3 |
 
 ## 🧪 How these stay correct
 

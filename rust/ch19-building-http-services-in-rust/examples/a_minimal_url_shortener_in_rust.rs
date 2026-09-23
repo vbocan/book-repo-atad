@@ -178,7 +178,7 @@ async fn handle_list(
 fn init_logging() {
     tracing_subscriber::fmt()
         .with_env_filter(tracing_subscriber::EnvFilter::try_from_default_env()
-            .unwrap_or_else(|_| tracing_subscriber::EnvFilter::new("urlshortener=info")))
+            .unwrap_or_else(|_| tracing_subscriber::EnvFilter::new("a_minimal_url_shortener_in_rust=info,tower_http=debug")))
         .with_target(false)
         .init();
 }
