@@ -1,0 +1,19 @@
+# Build output
+*.exe
+*.test
+*.out
+/rust/target/
+**/target/
+
+# Runtime scratch created when the examples run
+*.db
+*.sqlite
+*.sqlite3
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Reproducible-clone lockfiles ARE committed (go.sum, Cargo.lock); do not ignore them.

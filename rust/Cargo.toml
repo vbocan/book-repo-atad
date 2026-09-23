@@ -1,0 +1,10 @@
+[workspace]
+resolver = "3"
+members = [
+    "ch01-the-landscape-of-modern-systems-programming",
+    "ch10-getting-started-with-rust",
+    "ch11-types-variables-and-control-flow-in-rust",
+    "ch12-ownership-borrowing-and-lifetimes",
+    "ch16-iterators-closures-and-collections-in-rust",
+    "ch19-building-http-services-in-rust",
+]
