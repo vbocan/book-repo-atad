@@ -1,4 +1,4 @@
-use axum::{routing::{get, post}, Router};
+use axum::{routing::get, Router};
 
 async fn health() -> &'static str {
     "OK"
