@@ -1,0 +1,8 @@
+[package]
+name = "ch13-structs-methods-and-data-modeling-in-rust"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+
+[dependencies]
+

@@ -45,13 +45,21 @@ cargo run -p ch12-ownership-borrowing-and-lifetimes --example move-semantics
 |----:|-------|:-----------:|:-------------:|
 | 01 | The Landscape Of Modern Systems Programming | 1 | 1 |
 | 02 | Getting Started With Go | 3 | — |
-| 03 | Types Variables And Control Flow In Go | 2 | — |
-| 04 | Functions Methods And Error Handling In Go | 1 | — |
+| 03 | Types Variables And Control Flow In Go | 4 | — |
+| 04 | Functions Methods And Error Handling In Go | 3 | — |
+| 05 | Composite Types And Data Modeling In Go | 3 | — |
+| 06 | Interfaces And Generics In Go | 3 | — |
+| 07 | Concurrent Programming With Goroutines And Channels | 2 | — |
+| 09 | Building Http Services In Go | 1 | — |
 | 10 | Getting Started With Rust | — | 5 |
 | 11 | Types Variables And Control Flow In Rust | — | 6 |
-| 12 | Ownership Borrowing And Lifetimes | — | 8 |
+| 12 | Ownership Borrowing And Lifetimes | — | 7 |
+| 13 | Structs Methods And Data Modeling In Rust | — | 1 |
+| 14 | Enums Pattern Matching And Error Handling In Rust | — | 1 |
+| 15 | Generics Traits And Polymorphism In Rust | — | 1 |
 | 16 | Iterators Closures And Collections In Rust | — | 2 |
-| 19 | Building Http Services In Rust | — | 1 |
+| 17 | Concurrency And Smart Pointers In Rust | — | 1 |
+| 19 | Building Http Services In Rust | — | 2 |
 
 ## 🧪 How these stay correct
 

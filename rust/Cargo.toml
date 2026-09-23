@@ -5,6 +5,10 @@ members = [
     "ch10-getting-started-with-rust",
     "ch11-types-variables-and-control-flow-in-rust",
     "ch12-ownership-borrowing-and-lifetimes",
+    "ch13-structs-methods-and-data-modeling-in-rust",
+    "ch14-enums-pattern-matching-and-error-handling-in-rust",
+    "ch15-generics-traits-and-polymorphism-in-rust",
     "ch16-iterators-closures-and-collections-in-rust",
+    "ch17-concurrency-and-smart-pointers-in-rust",
     "ch19-building-http-services-in-rust",
 ]

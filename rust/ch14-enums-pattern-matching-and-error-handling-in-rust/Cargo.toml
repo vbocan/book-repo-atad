@@ -1,0 +1,8 @@
+[package]
+name = "ch14-enums-pattern-matching-and-error-handling-in-rust"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+
+[dependencies]
+

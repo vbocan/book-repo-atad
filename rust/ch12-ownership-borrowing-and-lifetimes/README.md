@@ -8,7 +8,6 @@ Examples in this crate:
 - `--example mutable_references_and_mut_t` — 12.2.2 Mutable References (`&mut T`)
 - `--example lifetimes_in_struct_definitions` — 12.4.4 Lifetimes in Struct Definitions
 - `--example ownership_exploration` — Exercise 12.1: Ownership Exploration
-- `--example refactoring_for_borrowing` — Exercise 12.2: Refactoring for Borrowing
 - `--example lifetime_annotations` — Exercise 12.4: Lifetime Annotations
 
 Run one with `cargo run -p ch12-ownership-borrowing-and-lifetimes --example <name>` from the `rust/` directory.
